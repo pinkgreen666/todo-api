@@ -21,3 +21,8 @@ class TodoService:
 
     async def delete_task(self, task_id: int):
         await self.todo_repository.delete_task(task_id=task_id)
+
+    async def get_all_tasks(self):
+        tasks = await self.todo_repository.get_all_task()
+        print(tasks)
+        return tasks

@@ -31,10 +31,10 @@ class Task(Base):
     is_completed = Column(Boolean, default=datetime.datetime.utcnow)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    def __repr__(self) -> str:
-        return (
-            f"<Task(id={self.id}, title='{self.title}', completed={self.is_comleted})>"
-        )
+    # def __repr__(self) -> str:
+    #     return (
+    #         f"<Task(id={self.id}, title='{self.title}', completed={self.is_completed})>"
+    #     )
 
 
 Base.metadata.create_all(bind=engine)

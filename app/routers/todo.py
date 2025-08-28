@@ -23,3 +23,8 @@ async def create_task(
 async def delete_task(task_id: int, todo_service: TodoService = Depends()):
     await todo_service.delete_task(task_id=task_id)
     return {"msg": "ok"}
+
+@todo_router.get("/")
+async def get_all_tasks(todo_service: TodoService = Depends()):
+    tasks = await todo_service.get_all_tasks()
+    return tasks
