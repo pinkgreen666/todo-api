@@ -28,8 +28,8 @@ class Task(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(200), nullable=False)
     description = Column(String(500), nullable=True)
-    is_completed = Column(Boolean, default=datetime.datetime.utcnow)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    is_completed = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
 
     # def __repr__(self) -> str:
     #     return (

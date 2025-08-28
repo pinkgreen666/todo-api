@@ -26,3 +26,6 @@ class TodoService:
         tasks = await self.todo_repository.get_all_task()
         print(tasks)
         return tasks
+
+    async def complete_task(self, task_id: int, is_complet: bool):
+        await self.todo_repository.complete_task(task_id=task_id, is_complet=is_complet)

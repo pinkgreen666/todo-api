@@ -28,3 +28,9 @@ async def delete_task(task_id: int, todo_service: TodoService = Depends()):
 async def get_all_tasks(todo_service: TodoService = Depends()):
     tasks = await todo_service.get_all_tasks()
     return tasks
+
+@todo_router.post("/complete_task")
+async def complete_task(task_id: int, is_complet: bool, todo_service: TodoService = Depends()):
+    print(is_complet)
+    await todo_service.complete_task(task_id=task_id, is_complet=is_complet)
+    return {"msg": "ok"}

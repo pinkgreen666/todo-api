@@ -1,7 +1,7 @@
 import sys
 import os
 
-from sqlalchemy import Null, delete, select, text
+from sqlalchemy import False_, Null, delete, false, insert, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 sys.path.append(os.path.join(os.getcwd(), "."))
@@ -24,11 +24,10 @@ class TodoRepository:
 
     async def create_task(self, title: str, description: str = None):
         try:
-            task = Task(title=title, description=description, is_completed=False)
-            self.db.add(task)
+            query = insert(Task).values(title=title, description=description, is_completed=False).returning(Task.id)
+            task_id = await self.db.execute(query)
             await self.db.commit()
-            await self.db.refresh(task)
-            return task
+            return task_id
         except Exception as e:
             await self.db.rollback()
             logger.error(f"Error with create task: {e}")
@@ -53,3 +52,12 @@ class TodoRepository:
         except Exception as e:
             logger.error(f"Error with get all tasks: {e}")
             return None
+    
+    async def complete_task(self, task_id: int, is_complet: bool):
+        try:
+            logger.debug(f"{task_id}\t{is_complet}")
+            query = update(Task).where(Task.id == task_id).values(is_completed = is_complet)
+            await self.db.execute(query)
+            await self.db.commit()
+        except Exception as e:
+            logger.error(f"Error with complete task: {e}")
