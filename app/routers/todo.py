@@ -17,3 +17,9 @@ async def create_task(
 ):
     task = await todo_service.create_task(title=title, description=description)
     return {"msg": "ok"}
+
+
+@todo_router.delete("/delete_task")
+async def delete_task(task_id: int, todo_service: TodoService = Depends()):
+    await todo_service.delete_task(task_id=task_id)
+    return {"msg": "ok"}

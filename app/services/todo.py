@@ -18,3 +18,6 @@ class TodoService:
             title=title, description=description
         )
         return task
+
+    async def delete_task(self, task_id: int):
+        await self.todo_repository.delete_task(task_id=task_id)

@@ -1,7 +1,7 @@
 import sys
 import os
 
-from sqlalchemy import Null
+from sqlalchemy import Null, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 sys.path.append(os.path.join(os.getcwd(), "."))
@@ -32,4 +32,15 @@ class TodoRepository:
         except Exception as e:
             await self.db.rollback()
             logger.error(f"Error with create task: {e}")
+            raise
+
+    async def delete_task(self, task_id: int):
+        try:
+            query = delete(Task).where(Task.id == task_id)
+            await self.db.execute(query)
+            await self.db.commit()
+
+        except Exception as e:
+            await self.db.rollback()
+            logger.error(f"Error with delete task: {e}")
             raise
