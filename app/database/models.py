@@ -11,11 +11,7 @@ from sqlalchemy import (
     func,
     null,
 )
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
-
-sqlite_database = "sqlite:///test.db"
-
-engine = create_engine(sqlite_database)
+from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):
@@ -30,23 +26,3 @@ class Task(Base):
     description = Column(String(500), nullable=True)
     is_completed = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
-
-    # def __repr__(self) -> str:
-    #     return (
-    #         f"<Task(id={self.id}, title='{self.title}', completed={self.is_completed})>"
-    #     )
-
-
-Base.metadata.create_all(bind=engine)
-
-print("База данных и таблица создана")
-
-session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-def get_db():
-    db = session_local()
-    try:
-        yield db
-    finally:
-        db.close()
